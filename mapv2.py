@@ -5,6 +5,7 @@ def view_map2(page):
     return ft.View(
         "/mapa2",
         [
+            ft.Row([ft.ElevatedButton("Volver", on_click=lambda e: page.go("/"))]),
             m:=map.Map(
             expand=True,
             on_init=lambda e: print("Map Init"),

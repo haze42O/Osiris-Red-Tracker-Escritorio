@@ -80,7 +80,11 @@ def view_map_canvas(page: ft.Page):
 
     def set_brush(e):
         nonlocal brush_width
-        brush_width = int(e.control.value)
+        # Slider on_change passes event with control.value
+        try:
+            brush_width = int(e.control.value)
+        except Exception:
+            pass
 
     def on_file_picked(e: ft.FilePickerResultEvent):
         # file picker returns list of files; take first
@@ -176,13 +180,17 @@ def view_map_canvas(page: ft.Page):
         ft.Slider(min=1, max=20, value=brush_width, divisions=19, width=120, on_change=set_brush),
     ])
 
-    # Stack image (bottom) and canvas (top)
-    # Stack children are rendered on top of each other; bg_image first, canvas on top
-    stack = ft.Stack([bg_image, cp])
+    # build stack and scrollable area (fix: ensure sc is defined)
+    stack = ft.Stack(controls=[bg_image, cp])
+    # put stack into outer container
     outer.content = stack
 
-    # Put stack inside a ListView to enable scrolling
-    sc = ft.ListView([outer], spacing=0, padding=0)
+    # use ListView to allow scrolling when image is large
+    try:
+        sc = ft.ListView([outer], scroll=ft.ScrollMode.AUTO)
+    except Exception:
+        # fallback: simple Column (may rely on page scroll)
+        sc = ft.Column([outer])
 
     # return as a View so it can be embedded in the app navigation
     return ft.View(
