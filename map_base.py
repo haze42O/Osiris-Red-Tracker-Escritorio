@@ -75,6 +75,7 @@ def view_mapa(page):
     return ft.View(
         "/mapa",
         [
+            ft.Row([ft.ElevatedButton("Volver", on_click=lambda e: page.go("/"))]),
             ft.Row([
                 sidebar,
                 mapa_container
