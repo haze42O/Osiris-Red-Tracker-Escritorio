@@ -1,6 +1,7 @@
 import flet as ft
 from map_base import view_mapa
 from mapv2 import view_map2
+from map_canvas import view_map_canvas
 from login import view_login
 from register import view_register
 
@@ -29,8 +30,15 @@ def main(page: ft.Page):
                         bgcolor="#1976d2",
                         color="white",
                         width=200,
-                        on_click=lambda _: page.go("/mapa2")  # Navega a la página del mapa
+                                on_click=lambda _: page.go("/mapa2")  # Navega a la página del mapa
                     ),
+                            ft.ElevatedButton(
+                                "Canvas",
+                                bgcolor="#1976d2",
+                                color="white",
+                                width=200,
+                                on_click=lambda _: page.go("/map_canvas")
+                            ),
                     ft.ElevatedButton(
                         "Iniciar Sesion",
                         bgcolor="#c319d2",
@@ -64,6 +72,8 @@ def main(page: ft.Page):
 
         elif page.route == "/mapa2":
             page.views.append(view_map2(page))
+        elif page.route == "/map_canvas":
+            page.views.append(view_map_canvas(page))
         elif page.route == "/login":
             page.views.append(view_login(page))
         elif page.route == "/register":
